@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Alarm 1</title>
+	<style type="text/css">
+		div{
+			/*background-color: yellow;*/
+			 background: linear-gradient(to bottom right, #3366ff 0%, #ffff00 100%);
+			width: 450px;
+			height: 390px;
+			padding: 25px;
+			border: 5px;
+			/*border-color: blue maroon green red;*/
+			/*border-style: dotted double dashed solid ;*/
+			border-radius: 50%;
+			color: #73264d;
+			margin: 35px;
+			padding-right: 30px;
+			margin-left: 400px;
+		}
+		input{
+			color: red;
+		}
+		#sta:hover{
+			background-color: blue;
+			color: yellow;
+		}
+		#stp:hover{
+			background-color: red;
+			color: yellow;
+		}
+		button:hover{
+			border-color: yellow;
+			background-color: yellow;
+			color: blue;
+		}
+		#fil{
+			padding-left: 40px;
+		}
+	</style>
+</head>
+<body onload="currentTime()" style="background-color: ">
+	<h1 style="margin-left: 550px; color: blue;">Emmy's Alarm</h1>
+
+	<div>
+		<center>
+			<p id="date" style="width: 170px; font-size: 50px; font-family: algerian;"></p>
+		</center>
+
+		<center>
+			<!-- <input id="fil" type="file" name=""><br><br> -->
+			Hour: <input type="number" style="border-radius: 50px; background-color: #ccff33; height: 25px;" id="hrs" name=""><br><br>
+
+			Minute: <input type="number" style="border-radius: 50px; background-color: #ccff33; height: 25px;" id="mins" name=""><br><br>
+
+			Seconds: <input type="number" style="border-radius: 50px; background-color: #ccff33; height: 25px;" id="secs" name=""><br><br>
+
+ 			<button id="sta" onclick="setAlarm()" style="border-radius: 10px;">Set Alarm</button>
+
+ 			<button id="stp" onclick="stopAlarm()" style="border-radius: 10px;">Stop Alarm</button>
+ 			
+ 			<button onclick="snooze()" style="border-radius: 10px;">Snooze</button>
+ 			
+		</center>
+	</div>
+
+	<script>
+		var d;
+		var min;
+		var sec;
+		var hr;
+		var session;
+		var timeloader;
+		var x = new Audio('Still_God.mp3');
+
+		function currentTime() {
+			d = new Date();
+			hr = d.getHours();
+			min = d.getMinutes();
+			sec = d.getSeconds();
+			
+			session = "";
+			if (hr < 10) {
+				hr = "0" + hr;
+			}
+			if (min < 10) {
+				min = "0" + min;
+			}
+			if (sec < 10) {
+				sec = "0" + sec;
+			}
+
+			document.getElementById('date').innerHTML = hr + ':' + min + ':' + sec;
+			setTimeout('currentTime(), 1000');
+		}
+
+		function setAlarm() {
+			timeloader = setTimeout(setAlarm, -1000);
+			console.log('seen')
+			if (hr == hrs.value && min == mins.value && sec == secs.value) {
+				// console.log('set')
+				x.play();
+			}
+			if (hrs.value == "" && mins.value == "" && secs.value == "") {
+				hrs.value = hr;
+				mins.value = min;
+				secs.value = sec;
+				x.play();
+			}
+			if (hrs.value > 24) {
+				hrs.value = "Invalid hour input";
+				
+			} else {
+				if (hr < 10) {
+				hr = "0" + hr;
+			}
+				hrs.value = parseInt(hrs.value);
+			}
+			if (mins.value > 60) {
+				mins.value = parseInt(mins.value) - 60;
+				hrs.value = parseInt(hrs.value) + (Math.floor(mins.value / 60));
+			} else {
+				if (min < 10) {
+				min = "0" + min;
+			}
+				mins.value = parseInt(mins.value);
+			}
+			if (secs.value > 60) {
+				secs.value = parseInt(secs.value) % 60;
+				mins.value = parseInt(mins.value) + (Math.floor(secs.value / 60));
+			} else {
+				if (sec < 10) {
+				sec = "0" + sec;
+			}
+				secs.value = parseInt(secs.value);	
+			}	
+		}
+
+		function stopAlarm() {
+			x.pause();
+			clearTimeout(timeloader)
+		}
+
+		function snooze() {
+			stopAlarm()
+			setAlarm()
+			hrs.value = hrs.value;
+			mins.value = parseInt(mins.value) + 1;
+			secs.value = parseInt(secs.value) + 10;
+			setTimeout(setAlarm, 60000);
+
+			if (hrs.value > 24) {
+				hrs.value = "Invalid hour input";
+				
+			} else {
+				if (hr < 10) {
+				hr = "0" + hr;
+			}
+				hrs.value = parseInt(hrs.value);
+			}
+			if (mins.value > 60) {
+				mins.value = parseInt(mins.value) - 60;
+				hrs.value = parseInt(hrs.value) + (Math.floor(mins.value / 60));
+			} else {
+				if (min < 10) {
+				min = "0" + min;
+			}
+				mins.value = parseInt(mins.value);
+			}
+			if (secs.value > 60) {
+				secs.value = parseInt(secs.value) % 60;
+				mins.value = parseInt(mins.value) + (Math.floor(secs.value / 60));
+			} else {
+				if (sec < 10) {
+				sec = "0" + sec;
+			}
+				secs.value = parseInt(secs.value);	
+			}
+		}
+	</script>
+</body>
+</html>
